@@ -7,4 +7,8 @@
     --color-neutrals-900: #232323;
 
     --color-background-primary: #f3efed;
+
+    --font-body: "Geist Mono", monospace;
+    --font-heading1: "Cinzel", serif;
+    --font-heading2: "DM Serif Display", serif;
 }
