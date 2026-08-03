@@ -46,22 +46,106 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+	/**
+	 * Site Title field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.site_title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	site_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta Description field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+	
+	/**
+	 * Meta Image field in *Settings*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+	
+	/**
+	 * Navigation field in *Settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.navigation
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	navigation: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, never>>;/**
+	 * Footer Text field in *Settings*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.footer_text
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	footer_text: prismic.RichTextField;
+	
+	/**
+	 * Footer Secondary Text field in *Settings*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.footer_secondary_text
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	footer_secondary_text: prismic.RichTextField;
+}
+
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
+
+export type AllDocumentTypes = SettingsDocument;
+
 declare module "@prismicio/client" {
 	interface CreateClient {
-		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client;
+		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
 	}
 	
 	interface CreateWriteClient {
-		(repositoryNameOrEndpoint: string, options?: prismic.WriteClientConfig): prismic.WriteClient;
+		(repositoryNameOrEndpoint: string, options: prismic.WriteClientConfig): prismic.WriteClient<AllDocumentTypes>;
 	}
 	
 	interface CreateMigration {
-		(): prismic.Migration;
+		(): prismic.Migration<AllDocumentTypes>;
 	}
 	
 	namespace Content {
 		export type {
-			
+			SettingsDocument,
+			SettingsDocumentData,
+			AllDocumentTypes
 		}
 	}
 }
