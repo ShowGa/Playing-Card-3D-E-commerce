@@ -46,7 +46,7 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-type PageDocumentDataSlicesSlice = HeroSlice
+type PageDocumentDataSlicesSlice = never
 
 /**
  * Content for Page documents
@@ -188,64 +188,6 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 
 export type AllDocumentTypes = PageDocument | SettingsDocument;
 
-/**
- * Primary content in *Hero → Default → Primary*
- */
-export interface HeroSliceDefaultPrimary {
-	/**
-	 * Title field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.title
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	title: prismic.RichTextField;
-	
-	/**
-	 * Text field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.text
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	text: prismic.RichTextField;
-	
-	/**
-	 * CTAs field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.ct_as
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	ct_as: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, "Primary" | "Transparent" | "Outlined">>;
-}
-
-/**
- * Default variation for Hero Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type HeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<HeroSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *Hero*
- */
-type HeroSliceVariation = HeroSliceDefault
-
-/**
- * Hero Shared Slice
- *
- * - **API ID**: `hero`
- * - **Description**: Hero
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
-
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -266,11 +208,7 @@ declare module "@prismicio/client" {
 			PageDocumentDataSlicesSlice,
 			SettingsDocument,
 			SettingsDocumentData,
-			AllDocumentTypes,
-			HeroSlice,
-			HeroSliceDefaultPrimary,
-			HeroSliceVariation,
-			HeroSliceDefault
+			AllDocumentTypes
 		}
 	}
 }
