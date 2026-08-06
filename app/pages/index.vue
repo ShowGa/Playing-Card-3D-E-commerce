@@ -1,6 +1,8 @@
+<script lang="ts"></script>
+
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-  </div>
+    <main>
+        <!-- add hero section later -->
+        <div class="hero"></div>
+    </main>
 </template>

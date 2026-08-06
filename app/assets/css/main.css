@@ -2,13 +2,189 @@
     --color-primary-700: #b17f48;
 
     --color-neutrals-base_white: #ffffff;
-    --color-neutrals-base_black: #232323;
+    --color-neutrals-base_black: #000000;
     --color-neutrals-100: #f0f0f0;
     --color-neutrals-900: #232323;
 
     --color-background-primary: #f3efed;
 
     --font-body: "Geist Mono", monospace;
-    --font-heading1: "Cinzel", serif;
-    --font-heading2: "DM Serif Display", serif;
+    --font-heading-accent: "Cinzel", serif;
+    --font-heading: "DM Serif Display", serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* Element */
+html {
+    background-color: var(--color-background-primary);
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    min-height: 100vh;
+}
+
+figure {
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Class-hero */
+.hero {
+    min-height: 100vh;
+}
+
+/* Class-cta */
+.cta {
+    line-height: 1.25;
+    padding: 1rem;
+    display: inline-block;
+}
+
+.cta:hover {
+    text-decoration: underline;
+}
+
+.cta:focus {
+    outline: none;
+}
+
+.cta:focus-visible {
+    background-color: black;
+    color: white;
+}
+
+.cta--primary {
+    background-color: var(--color-primary-700);
+}
+
+.cta--primary:focus-visible {
+    background-color: black;
+}
+
+.cta--inverted {
+    background-color: black;
+    color: white;
+}
+
+.cta--inverted:focus-visible {
+    background-color: transparent;
+    color: black;
+}
+
+.cta--muted {
+    opacity: 0.25;
+}
+
+.cta--muted:hover {
+    opacity: 1;
+}
+
+.cta--muted:focus-visible {
+    opacity: 1;
+}
+
+.cta--outlined {
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: black;
+}
+
+/* Class-bounded */
+.bounded {
+    margin-inline: auto;
+    padding: 4rem 2rem;
+    max-width: 60ch;
+}
+
+/* Class-rich-text */
+.rich-text > h1 {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    line-height: 1;
+    font-size: max(3rem, 5vw);
+}
+
+.rich-text > h2 {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    line-height: 1;
+    font-size: max(1.875rem, 2.5vw);
+}
+
+.rich-text > h3 {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    line-height: 1;
+    font-size: max(1.25rem, 1.25vw);
+}
+
+.rich-text > h3:not(:first-child) {
+    margin-top: 4rem;
+}
+
+.rich-text > p,
+.rich-text > ul,
+.rich-text > ul > li,
+.rich-text > dl {
+    max-width: 40ch;
+    hyphens: auto;
+}
+
+.rich-text > p:not(:first-child),
+.rich-text > ul:not(:first-child),
+.rich-text > ul > li:not(:first-child),
+.rich-text > dl:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.rich-text > dl > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rich-text > p > a,
+.rich-text > ul > li > a,
+.rich-text > dd > a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+
+.rich-text > p > a:focus,
+.rich-text > li > a:focus,
+.rich-text > dd > a:focus {
+    outline: none;
+    background-color: #000;
+    color: #fff;
+}
+
+/* media */
+@media (min-width: 1280px) {
+    .bounded {
+        margin-right: 0;
+        max-width: 40%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
