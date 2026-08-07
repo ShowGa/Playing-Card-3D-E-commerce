@@ -46,7 +46,7 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-type PageDocumentDataSlicesSlice = never
+type PageDocumentDataSlicesSlice = PictureSlice
 
 /**
  * Content for Page documents
