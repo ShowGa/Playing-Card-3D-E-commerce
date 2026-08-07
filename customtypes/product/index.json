@@ -1,0 +1,42 @@
+{
+  "format": "custom",
+  "id": "product",
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "stripe_id": {
+        "config": {
+          "label": "Stripe ID",
+          "placeholder": ""
+        },
+        "type": "Text"
+      },
+      "name": {
+        "config": {
+          "allowTargetBlank": true,
+          "label": "Name",
+          "multi": "heading2",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
+      },
+      "description": {
+        "config": {
+          "allowTargetBlank": true,
+          "label": "Description",
+          "multi": "paragraph,strong,em,hyperlink",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
+      }
+    }
+  },
+  "label": "Product",
+  "repeatable": true,
+  "status": true
+}

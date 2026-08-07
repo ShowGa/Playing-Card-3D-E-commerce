@@ -107,6 +107,55 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Content for Product documents
+ */
+interface ProductDocumentData {
+	/**
+	 * Stripe ID field in *Product*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product.stripe_id
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	stripe_id: prismic.KeyTextField;
+	
+	/**
+	 * Name field in *Product*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	name: prismic.RichTextField;
+	
+	/**
+	 * Description field in *Product*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * Product document from Prismic
+ *
+ * - **API ID**: `product`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProductDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProductDocumentData>, "product", Lang>;
+
+/**
  * Content for Settings documents
  */
 interface SettingsDocumentData {
@@ -186,7 +235,319 @@ interface SettingsDocumentData {
  */
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
-export type AllDocumentTypes = PageDocument | SettingsDocument;
+export type AllDocumentTypes = PageDocument | ProductDocument | SettingsDocument;
+
+/**
+ * Primary content in *Cart → Default → Primary*
+ */
+export interface CartSliceDefaultPrimary {
+	/**
+	 * Title field in *Cart → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: cart.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Text field in *Cart → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: cart.default.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+	
+	/**
+	 * Empty Text field in *Cart → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: cart.default.primary.empty_text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	empty_text: prismic.RichTextField;
+	
+	/**
+	 * Product field in *Cart → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: cart.default.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * Default variation for Cart Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CartSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CartSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *Cart*
+ */
+type CartSliceVariation = CartSliceDefault
+
+/**
+ * Cart Shared Slice
+ *
+ * - **API ID**: `cart`
+ * - **Description**: Cart
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CartSlice = prismic.SharedSlice<"cart", CartSliceVariation>;
+
+/**
+ * Primary content in *Picture → Default → Primary*
+ */
+export interface PictureSliceDefaultPrimary {
+	/**
+	 * Picture field in *Picture → Default → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.default.primary.picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	picture: prismic.ImageField<never>;
+	
+	/**
+	 * Caption field in *Picture → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.default.primary.caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	caption: prismic.RichTextField;
+	
+	/**
+	 * Secondary Picture (optional) field in *Picture → Default → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.default.primary.secondary_picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	secondary_picture: prismic.ImageField<never>;
+	
+	/**
+	 * Secondary Caption (optional) field in *Picture → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.default.primary.secondary_caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	secondary_caption: prismic.RichTextField;
+	
+	/**
+	 * Product field in *Picture → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.default.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * Default variation for Picture Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PictureSliceDefault = prismic.SharedSliceVariation<"default", Simplify<PictureSliceDefaultPrimary>, never>;
+
+/**
+ * Primary content in *Picture → Top → Primary*
+ */
+export interface PictureSliceTopPrimary {
+	/**
+	 * Picture field in *Picture → Top → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.top.primary.picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	picture: prismic.ImageField<never>;
+	
+	/**
+	 * Caption field in *Picture → Top → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.top.primary.caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	caption: prismic.RichTextField;
+	
+	/**
+	 * Secondary Picture (optional) field in *Picture → Top → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.top.primary.secondary_picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	secondary_picture: prismic.ImageField<never>;
+	
+	/**
+	 * Secondary Caption (optional) field in *Picture → Top → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.top.primary.secondary_caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	secondary_caption: prismic.RichTextField;
+	
+	/**
+	 * Product field in *Picture → Top → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.top.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * Top variation for Picture Slice
+ *
+ * - **API ID**: `top`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PictureSliceTop = prismic.SharedSliceVariation<"top", Simplify<PictureSliceTopPrimary>, never>;
+
+/**
+ * Primary content in *Picture → Bottom → Primary*
+ */
+export interface PictureSliceBottomPrimary {
+	/**
+	 * Picture field in *Picture → Bottom → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.bottom.primary.picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	picture: prismic.ImageField<never>;
+	
+	/**
+	 * Caption field in *Picture → Bottom → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.bottom.primary.caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	caption: prismic.RichTextField;
+	
+	/**
+	 * Secondary Picture (optional) field in *Picture → Bottom → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.bottom.primary.secondary_picture
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	secondary_picture: prismic.ImageField<never>;
+	
+	/**
+	 * Secondary Caption (optional) field in *Picture → Bottom → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.bottom.primary.secondary_caption
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	secondary_caption: prismic.RichTextField;
+	
+	/**
+	 * Product field in *Picture → Bottom → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: picture.bottom.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * Bottom variation for Picture Slice
+ *
+ * - **API ID**: `bottom`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PictureSliceBottom = prismic.SharedSliceVariation<"bottom", Simplify<PictureSliceBottomPrimary>, never>;
+
+/**
+ * Slice variation for *Picture*
+ */
+type PictureSliceVariation = PictureSliceDefault | PictureSliceTop | PictureSliceBottom
+
+/**
+ * Picture Shared Slice
+ *
+ * - **API ID**: `picture`
+ * - **Description**: Picture
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PictureSlice = prismic.SharedSlice<"picture", PictureSliceVariation>;
+
+/**
+ * Primary content in *Product → Default → Primary*
+ */
+export interface ProductSliceDefaultPrimary {
+	/**
+	 * Product field in *Product → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product.default.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: ContentRelationshipFieldWithData<[{"id":"product","fields":["stripe_id","name","description"]}]>;
+}
+
+/**
+ * Default variation for Product Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductSliceDefault = prismic.SharedSliceVariation<"default", Simplify<ProductSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *Product*
+ */
+type ProductSliceVariation = ProductSliceDefault
+
+/**
+ * Product Shared Slice
+ *
+ * - **API ID**: `product`
+ * - **Description**: Product
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductSlice = prismic.SharedSlice<"product", ProductSliceVariation>;
 
 declare module "@prismicio/client" {
 	interface CreateClient {
@@ -206,9 +567,27 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			ProductDocument,
+			ProductDocumentData,
 			SettingsDocument,
 			SettingsDocumentData,
-			AllDocumentTypes
+			AllDocumentTypes,
+			CartSlice,
+			CartSliceDefaultPrimary,
+			CartSliceVariation,
+			CartSliceDefault,
+			PictureSlice,
+			PictureSliceDefaultPrimary,
+			PictureSliceTopPrimary,
+			PictureSliceBottomPrimary,
+			PictureSliceVariation,
+			PictureSliceDefault,
+			PictureSliceTop,
+			PictureSliceBottom,
+			ProductSlice,
+			ProductSliceDefaultPrimary,
+			ProductSliceVariation,
+			ProductSliceDefault
 		}
 	}
 }

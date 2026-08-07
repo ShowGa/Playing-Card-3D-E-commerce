@@ -1,0 +1,56 @@
+{
+  "description": "Cart",
+  "id": "cart",
+  "name": "Cart",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "",
+      "name": "Default",
+      "primary": {
+        "title": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Title",
+            "multi": "heading2",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "text": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Text",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "empty_text": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Empty Text",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

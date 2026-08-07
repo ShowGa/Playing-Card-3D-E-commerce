@@ -1,0 +1,173 @@
+{
+  "description": "Picture",
+  "id": "picture",
+  "name": "Picture",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "",
+      "name": "Default",
+      "primary": {
+        "picture": {
+          "config": {
+            "constraint": {},
+            "label": "Picture",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Caption",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "secondary_picture": {
+          "config": {
+            "constraint": {},
+            "label": "Secondary Picture (optional)",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "secondary_caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Secondary Caption (optional)",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    },
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "top",
+      "imageUrl": "",
+      "name": "Top",
+      "primary": {
+        "picture": {
+          "config": {
+            "constraint": {},
+            "label": "Picture",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Caption",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "secondary_picture": {
+          "config": {
+            "constraint": {},
+            "label": "Secondary Picture (optional)",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "secondary_caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Secondary Caption (optional)",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    },
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "bottom",
+      "imageUrl": "",
+      "name": "Bottom",
+      "primary": {
+        "picture": {
+          "config": {
+            "constraint": {},
+            "label": "Picture",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Caption",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "secondary_picture": {
+          "config": {
+            "constraint": {},
+            "label": "Secondary Picture (optional)",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "secondary_caption": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Secondary Caption (optional)",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}
