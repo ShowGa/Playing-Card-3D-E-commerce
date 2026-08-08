@@ -38,7 +38,7 @@ a {
 }
 
 header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -52,9 +52,8 @@ header:has(a:hover) a:not(:hover) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 0.5rem;
+    padding: 1rem 2rem;
+    backdrop-filter: blur(4px);
 }
 .header__nav .cta {
     padding: 0;
@@ -81,7 +80,6 @@ header:has(a:hover) a:not(:hover) {
     justify-content: end;
     align-items: center;
     gap: 1rem;
-    backdrop-filter: blur(4px);
 }
 .header__menu-cart {
     margin-left: auto;
