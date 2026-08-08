@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Content } from "@prismicio/client";
+import SlideIn from "~/components/SlideIn.vue";
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -27,9 +28,12 @@ defineProps(
                 loading="lazy"
             />
 
-            <figcaption class="gallery-section__caption rich-text">
+            <SlideIn
+                as="figcaption"
+                class="gallery-section__caption gallery-section__caption--main rich-text"
+            >
                 <PrismicRichText :field="slice.primary.caption" />
-            </figcaption>
+            </SlideIn>
         </figure>
 
         <figure
@@ -42,11 +46,12 @@ defineProps(
                 loading="lazy"
             />
 
-            <figcaption
+            <SlideIn
+                as="figcaption"
                 class="gallery-section__caption gallery-section__caption--secondary rich-text"
             >
                 <PrismicRichText :field="slice.primary.secondary_caption" />
-            </figcaption>
+            </SlideIn>
         </figure>
     </section>
 </template>
@@ -75,6 +80,7 @@ defineProps(
 
 .gallery-section__image {
     width: 100%;
+    height: auto;
     z-index: 20;
 }
 
@@ -82,6 +88,7 @@ defineProps(
     grid-row: span 2;
 }
 
+/* 共用樣式：只放跟定位無關的部分 */
 .gallery-section__caption {
     padding: 1rem 1rem 4rem;
 }
@@ -89,7 +96,7 @@ defineProps(
 /* ---------- default ---------- */
 
 @media (min-width: 1280px) {
-    .gallery-section--default .gallery-section__caption {
+    .gallery-section--default .gallery-section__caption--main {
         align-self: flex-start;
     }
 
@@ -101,7 +108,7 @@ defineProps(
 /* ---------- bottom ---------- */
 
 @media (min-width: 1280px) {
-    .gallery-section--bottom .gallery-section__caption {
+    .gallery-section--bottom .gallery-section__caption--main {
         align-self: flex-start;
     }
 
@@ -117,7 +124,7 @@ defineProps(
 /* ---------- top ---------- */
 
 @media (min-width: 1280px) {
-    .gallery-section--top .gallery-section__caption {
+    .gallery-section--top .gallery-section__caption--main {
         order: 1;
         align-self: flex-end;
     }
