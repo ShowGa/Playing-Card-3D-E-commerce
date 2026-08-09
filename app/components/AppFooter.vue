@@ -11,12 +11,12 @@ defineProps<{ settings?: Content.SettingsDocument }>();
             <BrandIcon class="footer__logo" fill="#f0f0f0" />
         </figure>
 
-        <section class="bounded rich-text footer__links">
+        <SlideIn class="bounded rich-text footer__links">
             <h2>ShowGa</h2>
             <PrismicRichText :field="settings?.data.footer_text" />
             <div :style="{ flexGrow: 1 }"></div>
             <PrismicRichText :field="settings?.data.footer_secondary_text" />
-        </section>
+        </SlideIn>
     </footer>
 </template>
 
