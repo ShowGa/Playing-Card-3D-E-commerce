@@ -2,10 +2,12 @@
 import { components } from "~/slices";
 
 const prismic = usePrismic();
-const route = useRoute();
+
 const { data: page } = await useAsyncData(`[page-uid-home]` as string, () =>
     prismic.client.getByUID("page", "home"),
 );
+
+const { data: stripeProducts } = await useFetch("/api/products");
 
 useSeoMeta({
     title: page.value?.data.meta_title ?? undefined,
@@ -18,6 +20,10 @@ useSeoMeta({
 
 <template>
     <main>
-        <SliceZone :slices="page?.data.slices ?? []" :components="components" />
+        <SliceZone
+            :slices="page?.data.slices ?? []"
+            :components="components"
+            :context="{ stripeProducts }"
+        />
     </main>
 </template>

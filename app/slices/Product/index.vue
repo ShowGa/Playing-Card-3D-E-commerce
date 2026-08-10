@@ -4,12 +4,10 @@ import type { Content } from "@prismicio/client";
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
 const props = defineProps(
-    getSliceComponentProps<Content.ProductSlice>([
-        "slice",
-        "index",
-        "slices",
-        "context",
-    ]),
+    getSliceComponentProps<
+        Content.ProductSlice,
+        { stripeProducts: Record<string, StripeProduct> }
+    >(["slice", "index", "slices", "context"]),
 );
 
 const prismic = usePrismic();
@@ -18,15 +16,23 @@ const product = computed(() => {
     const prismicProduct = props.slice.primary.product;
 
     if (
-        !(
-            prismic.isFilled.contentRelationship(prismicProduct) &&
-            prismicProduct.data?.stripe_id
-        )
+        !prismic.isFilled.contentRelationship(prismicProduct) ||
+        !prismicProduct.data?.stripe_id
     ) {
         return undefined;
     }
 
-    return { ...prismicProduct };
+    console.log(props.context.stripeProducts);
+    console.log(prismicProduct.data.stripe_id);
+
+    const stripeProduct =
+        props.context.stripeProducts[prismicProduct.data?.stripe_id];
+
+    if (!stripeProduct) {
+        return undefined;
+    }
+
+    return { ...prismicProduct, stripeProduct };
 });
 
 const quantity = ref(1);
@@ -53,7 +59,9 @@ function onSubmit(event: Event) {
     >
         <header class="rich-text product-section__header">
             <PrismicRichText :field="product?.data?.name" />
-            <p aria-label="Price">$10 / Deck</p>
+            <p aria-label="Price">
+                {{ formatPrice(product.stripeProduct.price.amount) }} / Deck
+            </p>
         </header>
         <section class="rich-text">
             <h3 class="screen-reader">Description</h3>

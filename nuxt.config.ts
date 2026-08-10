@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: "2025-07-15",
     devtools: { enabled: true },
-    modules: ["@nuxtjs/prismic", "@nuxt/fonts"],
+    modules: ["@nuxtjs/prismic", "@nuxt/fonts", "@vueuse/nuxt"],
     css: ["~/assets/css/main.css"],
     app: {
         head: {
@@ -23,5 +23,8 @@ export default defineNuxtConfig({
                 { rel: "manifest", href: "" },
             ],
         },
+    },
+    runtimeConfig: {
+        stripeSecretKey: "",
     },
 });
