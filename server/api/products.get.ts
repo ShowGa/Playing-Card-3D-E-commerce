@@ -13,8 +13,6 @@ export default defineEventHandler(async (event) => {
         expand: ["data.default_price"],
     });
 
-    console.log(products);
-
     const productMap: Record<string, StripeProduct> = {};
 
     for (const product of products) {

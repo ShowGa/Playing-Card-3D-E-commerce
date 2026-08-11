@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Content } from "@prismicio/client";
+import { asText, type Content } from "@prismicio/client";
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -12,6 +12,8 @@ const props = defineProps(
 
 const prismic = usePrismic();
 
+const { items, upsertItem } = useCart();
+
 const product = computed(() => {
     const prismicProduct = props.slice.primary.product;
 
@@ -21,9 +23,6 @@ const product = computed(() => {
     ) {
         return undefined;
     }
-
-    console.log(props.context.stripeProducts);
-    console.log(prismicProduct.data.stripe_id);
 
     const stripeProduct =
         props.context.stripeProducts[prismicProduct.data?.stripe_id];
@@ -45,7 +44,16 @@ function setQuantity(value: number) {
 function onSubmit(event: Event) {
     event.preventDefault();
 
-    alert("Product Added to cart !");
+    if (!product.value) return;
+
+    const currentCartQuantity =
+        items.value[product.value.stripeProduct.id]?.quantity ?? 0;
+
+    upsertItem({
+        product: product.value?.stripeProduct,
+        quantity: currentCartQuantity + quantity.value,
+        name: asText(product.value.data?.name) ?? "",
+    });
 
     setQuantity(1);
 }
@@ -92,11 +100,23 @@ function onSubmit(event: Event) {
                 <button class="cta cta--primary" style="width: 100%">
                     Add To Cart
                 </button>
-                <p style="text-align: center">
-                    <NuxtLink to="#/cart" class="cta cta--muted"
-                        >1 in cart</NuxtLink
+
+                <ClientOnly>
+                    <p
+                        style="text-align: center"
+                        :style="{
+                            visibility: items[product.stripeProduct.id]
+                                ?.quantity
+                                ? 'visible'
+                                : 'hidden',
+                        }"
                     >
-                </p>
+                        <NuxtLink to="#/cart" class="cta cta--muted">
+                            {{ items[product.stripeProduct.id]?.quantity }} in
+                            cart
+                        </NuxtLink>
+                    </p>
+                </ClientOnly>
             </div>
         </form>
     </SlideIn>

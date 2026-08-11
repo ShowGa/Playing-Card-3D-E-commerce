@@ -3,6 +3,8 @@ import type { Content } from "@prismicio/client";
 import BrandIcon from "./svg/BrandIcon.vue";
 
 const props = defineProps<{ settings?: Content.SettingsDocument }>();
+
+const { totalItem } = useCart();
 </script>
 
 <template>
@@ -25,7 +27,11 @@ const props = defineProps<{ settings?: Content.SettingsDocument }>();
                 </li>
 
                 <li class="header__menu-cart">
-                    <NuxtLink to="/#cart" class="cta">Cart (0)</NuxtLink>
+                    <NuxtLink to="/#cart" class="cta">
+                        Cart (<ClientOnly fallback="~">
+                            {{ totalItem }} </ClientOnly
+                        >)
+                    </NuxtLink>
                 </li>
             </ul>
         </nav>

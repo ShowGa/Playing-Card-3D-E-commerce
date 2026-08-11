@@ -12,6 +12,13 @@ useSeoMeta({
     ogDescription: settings.value?.data.meta_description,
     ogImage: settings.value?.data.meta_image.url,
 });
+
+onMounted(() => {
+    if (route.query.order === "completed") {
+        useCart().clear();
+        useRouter().replace({ path: route.path });
+    }
+});
 </script>
 
 <template>
