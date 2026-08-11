@@ -17,6 +17,9 @@
             },
             "product": {
               "type": "SharedSlice"
+            },
+            "cart": {
+              "type": "SharedSlice"
             }
           }
         },
