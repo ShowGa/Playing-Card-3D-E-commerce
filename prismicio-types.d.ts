@@ -46,7 +46,7 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-type PageDocumentDataSlicesSlice = PictureSlice | ProductSlice | CartSlice
+type PageDocumentDataSlicesSlice = PictureSlice | ProductSlice | CartSlice | RichTextSlice
 
 /**
  * Content for Page documents
@@ -549,6 +549,128 @@ type ProductSliceVariation = ProductSliceDefault
  */
 export type ProductSlice = prismic.SharedSlice<"product", ProductSliceVariation>;
 
+/**
+ * Primary content in *RichText → Default → Primary*
+ */
+export interface RichTextSliceDefaultPrimary {
+	/**
+	 * Title field in *RichText → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Text field in *RichText → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.default.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+	
+	/**
+	 * CTAs field in *RichText → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.default.primary.ctas
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	ctas: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, "Primary" | "Outlined" | "Transparent">>;
+	
+	/**
+	 * Product field in *RichText → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.default.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * Default variation for RichText Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type RichTextSliceDefault = prismic.SharedSliceVariation<"default", Simplify<RichTextSliceDefaultPrimary>, never>;
+
+/**
+ * Primary content in *RichText → FullScreen → Primary*
+ */
+export interface RichTextSliceFullScreenPrimary {
+	/**
+	 * Title field in *RichText → FullScreen → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.fullScreen.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Text field in *RichText → FullScreen → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.fullScreen.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+	
+	/**
+	 * CTAs field in *RichText → FullScreen → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.fullScreen.primary.ctas
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	ctas: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, "Primary" | "Outlined" | "Transparent">>;
+	
+	/**
+	 * Product field in *RichText → FullScreen → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: rich_text.fullScreen.primary.product
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	product: prismic.ContentRelationshipField<"product">;
+}
+
+/**
+ * FullScreen variation for RichText Slice
+ *
+ * - **API ID**: `fullScreen`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type RichTextSliceFullScreen = prismic.SharedSliceVariation<"fullScreen", Simplify<RichTextSliceFullScreenPrimary>, never>;
+
+/**
+ * Slice variation for *RichText*
+ */
+type RichTextSliceVariation = RichTextSliceDefault | RichTextSliceFullScreen
+
+/**
+ * RichText Shared Slice
+ *
+ * - **API ID**: `rich_text`
+ * - **Description**: RichText
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type RichTextSlice = prismic.SharedSlice<"rich_text", RichTextSliceVariation>;
+
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -587,7 +709,13 @@ declare module "@prismicio/client" {
 			ProductSlice,
 			ProductSliceDefaultPrimary,
 			ProductSliceVariation,
-			ProductSliceDefault
+			ProductSliceDefault,
+			RichTextSlice,
+			RichTextSliceDefaultPrimary,
+			RichTextSliceFullScreenPrimary,
+			RichTextSliceVariation,
+			RichTextSliceDefault,
+			RichTextSliceFullScreen
 		}
 	}
 }

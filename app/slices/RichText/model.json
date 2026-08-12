@@ -1,0 +1,118 @@
+{
+  "description": "RichText",
+  "id": "rich_text",
+  "name": "RichText",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "",
+      "name": "Default",
+      "primary": {
+        "title": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Title",
+            "multi": "heading1,heading2",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "text": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Text",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "ctas": {
+          "config": {
+            "allowTargetBlank": true,
+            "allowText": true,
+            "label": "CTAs",
+            "placeholder": "",
+            "repeat": true,
+            "select": null,
+            "variants": [
+              "Primary",
+              "Outlined",
+              "Transparent"
+            ]
+          },
+          "type": "Link"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    },
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "fullScreen",
+      "imageUrl": "",
+      "name": "FullScreen",
+      "primary": {
+        "title": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Title",
+            "multi": "heading1,heading2",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "text": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Text",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "ctas": {
+          "config": {
+            "allowTargetBlank": true,
+            "allowText": true,
+            "label": "CTAs",
+            "placeholder": "",
+            "repeat": true,
+            "select": null,
+            "variants": [
+              "Primary",
+              "Outlined",
+              "Transparent"
+            ]
+          },
+          "type": "Link"
+        },
+        "product": {
+          "config": {
+            "customtypes": [
+              "product"
+            ],
+            "label": "Product",
+            "repeat": false,
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}
