@@ -60,7 +60,11 @@ const { items, totalPrice, removeItem } = useCart();
                     >
                         &times;
                     </button>
-                    <input type="hidden" />
+                    <input
+                        type="hidden"
+                        :name="item.product.price.id"
+                        :value="item.quantity"
+                    />
                 </li>
             </ul>
 
