@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: "2025-07-15",
     devtools: { enabled: true },
-    modules: ["@nuxtjs/prismic", "@nuxt/fonts", "@vueuse/nuxt"],
+    modules: ["@nuxtjs/prismic", "@nuxt/fonts", "@vueuse/nuxt", "@tresjs/nuxt"],
     css: ["~/assets/css/main.css"],
     app: {
         head: {
