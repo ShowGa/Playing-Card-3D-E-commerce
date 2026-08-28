@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import TCanvas from "~/components/TCanvas.vue";
+
 const route = useRoute();
 const prismic = usePrismic();
 const { data: settings } = await useAsyncData("settings", () => {
@@ -30,7 +32,19 @@ onMounted(() => {
         <slot />
 
         <AppFooter :settings="settings" />
+
+        <TCanvas class="experience__3D-canvas">
+            <TScene />
+        </TCanvas>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.experience__3D-canvas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100lvh; /* fix the mobile shrink link / tool bar */
+}
+</style>
