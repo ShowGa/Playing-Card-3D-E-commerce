@@ -46,5 +46,6 @@ onMounted(() => {
     right: 0;
     top: 0;
     height: 100lvh; /* fix the mobile shrink link / tool bar */
+    z-index: -1;
 }
 </style>

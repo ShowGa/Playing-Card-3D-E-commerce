@@ -1,29 +1,58 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// vueuse
+const { width } = useWindowSize();
+
+const options = computed(() => {
+    if (width.value >= 1280) {
+        return {
+            x: 0.33,
+            cardPos: [1.7, 2.5, -2],
+            casePos: [-1.7, -2.5, 0],
+            scale: 0.7,
+        };
+    }
+
+    return {
+        x: 0.5,
+        cardPos: [2.5, 4.5, 0],
+        casePos: [-2.5, -5, 0],
+        scale: 0.45,
+    };
+});
+</script>
 
 <template>
-    <TAbsoluteGroup>
-        <!-- Deck Box -->
-        <TresGroup>
+    <TAbsoluteGroup :x="options.x" :distance="20">
+        <!-- Deck Cards -->
+        <TresGroup :position="options.cardPos" :scale="options.scale">
             <Levioso>
                 <TresGroup>
                     <TresGroup>
-                        <TDeckBox />
+                        <TCards
+                            model="aurelia"
+                            :rotation="[Math.PI / 2, 0, 0]"
+                        />
                     </TresGroup>
                 </TresGroup>
             </Levioso>
         </TresGroup>
 
-        <!-- Deck Cards -->
-        <TresGroup>
+        <!-- Deck Box -->
+        <TresGroup :position="options.casePos" :scale="options.scale">
             <Levioso>
                 <TresGroup>
-                    <TresGroup></TresGroup>
+                    <TresGroup>
+                        <TCase
+                            model="aurelia"
+                            :rotation="[-Math.PI / 2, 0, 0]"
+                        />
+                    </TresGroup>
                 </TresGroup>
             </Levioso>
         </TresGroup>
     </TAbsoluteGroup>
 
-    <TresMesh>
+    <TresMesh receive-shadow :position="[0, 0, -4]">
         <TresPlaneGeometry :args="[400, 400, 10, 10]" />
         <TresMeshStandardMaterial
             color="#ffffff"
@@ -34,7 +63,8 @@
 
     <TresDirectionalLight
         cast-shadow
-        :intensity="0.2"
+        :position="[-8, 0, 20]"
+        :intensity="0.5"
         :shadow-mapSize-width="1024"
         :shadow-mapSize-height="1024"
         :shadow-camera-near="1"
@@ -47,7 +77,7 @@
     />
 
     <Suspense>
-        <Environment :environment-intensity="0.8" />
+        <Environment files="/textures/lobby.hdr" :environment-intensity="0.5" />
     </Suspense>
 </template>
 
@@ -61,5 +91,13 @@
 3. 
 
 
-
+        <TresGroup>
+            <Levioso>
+                <TresGroup>
+                    <TresGroup>
+                        <TCards />
+                    </TresGroup>
+                </TresGroup>
+            </Levioso>
+        </TresGroup>
 -->
