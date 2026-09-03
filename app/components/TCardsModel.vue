@@ -88,7 +88,7 @@ const material = computed(() => {
     });
 
     const sideMat = new MeshStandardMaterial({
-        color: "#ffffff",
+        color: "#f2f2f2",
     });
 
     // onBeforeCompile
