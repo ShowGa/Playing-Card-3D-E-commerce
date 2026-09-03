@@ -83,6 +83,7 @@ ul {
     line-height: 1.25;
     padding: 1rem;
     display: inline-block;
+    background: none;
 }
 
 .cta:hover {
