@@ -8,7 +8,7 @@ const foilData: Record<string, number> = {};
 <template>
     <TCaseModel
         model="/case/case.glb"
-        :normalMap="`/${model}-texture/case_normal.png`"
+        :normalMap="`/${model}-texture/case_normal_1024.png`"
         :roughnessMap="`/${model}-texture/case_roughness.png`"
         :mask_and_metalnessMap="`/${model}-texture/case_mask_metallic.png`"
     />

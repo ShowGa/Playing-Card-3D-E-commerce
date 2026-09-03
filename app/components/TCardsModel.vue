@@ -7,6 +7,7 @@ const props = defineProps<{
     back_mask_and_metalnessMap: string;
     back_roughnessMap: string;
     back_fill_mask: string;
+    back_normalMap: string;
     // mask
 }>();
 
@@ -38,16 +39,22 @@ const { state: backFillMask, isLoading: isBackFillMaskLoading } = useTexture(
     computed(() => props.back_fill_mask),
 );
 
+const { state: backNormal, isLoading: isBackNormalLoading } = useTexture(
+    computed(() => props.back_normalMap),
+);
+
 const material = computed(() => {
     if (
         !backMetalnessMap.value ||
         !backRoughnessMap.value ||
         !frontMask.value ||
         !backFillMask.value ||
+        !backNormal.value ||
         isBackMetalnessMapLoading.value ||
         isBackRoughnessMapLoading.value ||
         isFrontMaskLoading.value ||
-        isBackFillMaskLoading.value
+        isBackFillMaskLoading.value ||
+        isBackNormalLoading.value
     ) {
         return;
     }
@@ -57,6 +64,7 @@ const material = computed(() => {
         backRoughnessMap.value,
         frontMask.value,
         backFillMask.value,
+        backNormal.value,
     ].forEach((texture) => {
         if (texture) {
             texture.flipY = false;
@@ -76,6 +84,7 @@ const material = computed(() => {
         metalness: 1,
         roughnessMap: backRoughnessMap.value,
         metalnessMap: backMetalnessMap.value,
+        normalMap: backNormal.value,
     });
 
     const sideMat = new MeshStandardMaterial({
