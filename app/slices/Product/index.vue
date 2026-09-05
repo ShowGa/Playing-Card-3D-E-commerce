@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { asText, type Content } from "@prismicio/client";
+import type { rotate } from "three/src/nodes/TSL.js";
+import { getSceneAttributes } from "~/utils/getSceneAttributes";
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -61,6 +63,13 @@ function onSubmit(event: Event) {
 
 <template>
     <SlideIn
+        v-bind="
+            getSceneAttributes({
+                position: 'center',
+                model: product.uid,
+                rotate: true,
+            })
+        "
         v-if="product"
         as="article"
         class="rich-text bounded product-section__wrapper"

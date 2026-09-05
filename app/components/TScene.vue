@@ -1,6 +1,26 @@
 <script lang="ts" setup>
+import type { Group } from "three";
+import gsap from "gsap";
+
+const { totalItem } = useCart();
+const route = useRoute();
+
+const activeModel = ref(""); //aurelia
+
+const cardRef = ref<Group | null>();
+const cardInternalRef = ref<Group | null>();
+const caseRef = ref<Group | null>();
+
 // vueuse
 const { width } = useWindowSize();
+
+// 3D model default animations
+useLoop().onBeforeRender(({ elapsed }) => {
+    if (cardInternalRef.value) {
+        cardInternalRef.value.rotation.y =
+            Math.PI / 4 - (Math.sin(elapsed * 0.25) * Math.PI) / 2;
+    }
+});
 
 const options = computed(() => {
     if (width.value >= 1280) {
@@ -19,6 +39,119 @@ const options = computed(() => {
         scale: 0.45,
     };
 });
+
+useGSAP((isReducedMotion) => {
+    if (!cardRef.value || !caseRef.value) return;
+
+    const cardPos = cardRef.value.position;
+    const casePos = caseRef.value.position;
+
+    const cardRot = cardRef.value.rotation;
+    const caseRot = caseRef.value.rotation;
+
+    function animateScroll() {
+        const $section = document.querySelectorAll<HTMLElement>(
+            "[data-scene-position]",
+        );
+
+        $section.forEach((sec) => {
+            const model = sec.dataset.sceneModel;
+            const position = sec.dataset.scenePosition;
+            const shouldRotate =
+                !isReducedMotion && Boolean(sec.dataset.sceneRotate);
+
+            function onEnterAndBack() {
+                if (model) {
+                    activeModel.value = model;
+                }
+            }
+
+            function onRefresh(self: ScrollTrigger) {
+                if (self.isActive && model) {
+                    activeModel.value = model;
+                }
+            }
+
+            if (position === "center" || position === "top") {
+                gsap.to([cardPos, casePos], {
+                    y: position === "center" ? 0 : 24,
+                    // duration: 1,
+                    stagger: 0.5,
+                    ease: "power2.inOut",
+                    repeatRefresh: true,
+                    scrollTrigger: {
+                        trigger: sec,
+                        start:
+                            position === "center"
+                                ? "top+=40% bottom"
+                                : "top bottom",
+                        end:
+                            position === "center"
+                                ? "top+=80% bottom"
+                                : "top+=50% bottom",
+                        scrub: true,
+                        invalidateOnRefresh: true,
+                        onRefresh: onRefresh,
+                        onEnter: onEnterAndBack,
+                        onEnterBack: onEnterAndBack,
+                    },
+                });
+            }
+
+            // gsap animation for 3D object rotation
+            if (shouldRotate) {
+                gsap.to([cardRot, caseRot], {
+                    y: `+=${Math.PI * 2}`,
+                    // duration: 1,
+                    ease: "power2.inOut",
+                    stagger: 0.05,
+                    repeatRefresh: true,
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: "top center",
+                        end: "bottom center",
+                        scrub: 0.6,
+                        invalidateOnRefresh: true,
+                    },
+                });
+            }
+        });
+    }
+
+    // animation => initial 3D object loaded
+    if (!isReducedMotion || window.scrollY < 20) {
+        gsap.fromTo(
+            [cardPos, casePos],
+            {
+                y: -12,
+            },
+            {
+                y: 0,
+                delay: 1,
+                duration: 1,
+                ease: "power2.out",
+                stagger: 0.2,
+                onComplete: animateScroll,
+            },
+        );
+    } else {
+        animateScroll();
+    }
+
+    // animation => rotate  when adding item to cart
+    if (!isReducedMotion) {
+        watch(totalItem, (next, prev) => {
+            if (next <= prev) return;
+
+            gsap.to([cardRot, caseRot], {
+                y: `+=${Math.PI}`,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "power2.inOut",
+            });
+        });
+    }
+});
 </script>
 
 <template>
@@ -26,8 +159,8 @@ const options = computed(() => {
         <!-- Deck Cards -->
         <TresGroup :position="options.cardPos" :scale="options.scale">
             <Levioso>
-                <TresGroup>
-                    <TresGroup>
+                <TresGroup ref="cardRef">
+                    <TresGroup ref="cardInternalRef">
                         <TCards
                             model="aurelia"
                             :rotation="[Math.PI / 2, 0, 0]"
@@ -40,7 +173,7 @@ const options = computed(() => {
         <!-- Deck Box -->
         <TresGroup :position="options.casePos" :scale="options.scale">
             <Levioso>
-                <TresGroup>
+                <TresGroup ref="caseRef">
                     <TresGroup>
                         <TCase
                             model="aurelia"

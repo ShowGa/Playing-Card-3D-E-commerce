@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { Content } from "@prismicio/client";
 import BrandIcon from "./svg/BrandIcon.vue";
+import { getSceneAttributes } from "~/utils/getSceneAttributes.ts";
 
 defineProps<{ settings?: Content.SettingsDocument }>();
 </script>
 
 <template>
-    <footer>
+    <footer v-bind="getSceneAttributes({ position: 'top' })">
         <figure class="footer__logo-container">
             <BrandIcon class="footer__logo" fill="#f0f0f0" />
         </figure>

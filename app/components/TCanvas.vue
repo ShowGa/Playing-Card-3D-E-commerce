@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <figure class="threeD-canvas__wrapper" :class="{ 'opacity-0': !mounted }">
+    <figure class="threeD-canvas__wrapper" :class="{ 'is-mounted': mounted }">
         <TresCanvas
             shadows
             :output-color-space="SRGBColorSpace"
@@ -33,7 +33,11 @@ onMounted(() => {
 
 <style scoped>
 .threeD-canvas__wrapper {
-    transition: opacity 1s ease-in-out;
-    transition-delay: 300ms;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    transition-delay: 1s;
+}
+.threeD-canvas__wrapper.is-mounted {
+    opacity: 1;
 }
 </style>

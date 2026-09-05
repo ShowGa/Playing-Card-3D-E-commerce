@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Content } from "@prismicio/client";
+import { getSceneAttributes } from "~/utils/getSceneAttributes";
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -15,6 +16,16 @@ defineProps(
 
 <template>
     <SlideIn
+        v-bind="
+            getSceneAttributes({
+                position: 'center',
+                model: $prismic.isFilled.contentRelationship(
+                    slice.primary.product,
+                )
+                    ? slice.primary.product.uid
+                    : undefined,
+            })
+        "
         class="thanks-section bounded rich-text"
         :style="{
             minHeight: slice.variation !== 'fullScreen' ? '40vh' : '100vh',

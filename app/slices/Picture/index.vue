@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Content } from "@prismicio/client";
 import SlideIn from "~/components/SlideIn.vue";
+import { getSceneAttributes } from "~/utils/getSceneAttributes";
 
 // The array passed to `getSliceComponentProps` is purely optional.
 // Consider it as a visual hint for you when templating your slice.
@@ -16,6 +17,16 @@ defineProps(
 
 <template>
     <section
+        v-bind="
+            getSceneAttributes({
+                position: 'top',
+                model: $prismic.isFilled.contentRelationship(
+                    slice.primary.product,
+                )
+                    ? slice.primary.product.uid
+                    : undefined,
+            })
+        "
         class="gallery-section"
         :class="`gallery-section--${slice.variation}`"
         :data-slice-type="slice.slice_type"
