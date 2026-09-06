@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { Group } from "three";
 import gsap from "gsap";
+import type { foilDeckColor } from "~/constants/foilCardColor";
 
 const { totalItem } = useCart();
 const route = useRoute();
 
-const activeModel = ref(""); //aurelia
+const activeCustomColor = ref("golden-black" as keyof typeof foilDeckColor);
 
 const cardRef = ref<Group | null>();
 const cardInternalRef = ref<Group | null>();
@@ -62,13 +63,15 @@ useGSAP((isReducedMotion) => {
 
             function onEnterAndBack() {
                 if (model) {
-                    activeModel.value = model;
+                    activeCustomColor.value =
+                        model as keyof typeof foilDeckColor;
                 }
             }
 
             function onRefresh(self: ScrollTrigger) {
                 if (self.isActive && model) {
-                    activeModel.value = model;
+                    activeCustomColor.value =
+                        model as keyof typeof foilDeckColor;
                 }
             }
 
@@ -163,6 +166,7 @@ useGSAP((isReducedMotion) => {
                     <TresGroup ref="cardInternalRef">
                         <TCards
                             model="aurelia"
+                            :foilDeck="activeCustomColor"
                             :rotation="[Math.PI / 2, 0, 0]"
                         />
                     </TresGroup>
@@ -177,6 +181,7 @@ useGSAP((isReducedMotion) => {
                     <TresGroup>
                         <TCase
                             model="aurelia"
+                            :foilDeck="activeCustomColor"
                             :rotation="[-Math.PI / 2, 0, 0]"
                         />
                     </TresGroup>

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { Mesh, MeshStandardMaterial, NoColorSpace } from "three";
+import { Mesh, MeshStandardMaterial, NoColorSpace, Color } from "three";
 
 const props = defineProps<{
     model: string;
+    foilColor?: string;
+    paperColor?: string;
     front_mask: string;
     back_mask_and_metalnessMap: string;
     back_roughnessMap: string;
@@ -12,7 +14,9 @@ const props = defineProps<{
 }>();
 
 const { state } = useGLTF(props.model);
-console.log(state.value?.animations);
+
+const foilColor = new Color("#e7c072");
+const paperColor = new Color("#fcfcfc");
 
 watch(state, (state) => {
     state?.scene.traverse((child) => {
@@ -20,8 +24,6 @@ watch(state, (state) => {
             child.castShadow = true;
         }
     });
-
-    console.log(state?.scene);
 });
 
 // load maps
@@ -41,6 +43,25 @@ const { state: backFillMask, isLoading: isBackFillMaskLoading } = useTexture(
 
 const { state: backNormal, isLoading: isBackNormalLoading } = useTexture(
     computed(() => props.back_normalMap),
+);
+
+watch(
+    () => props.foilColor,
+    (value) => {
+        foilColor.set(value ?? "#e7c072");
+    },
+    {
+        immediate: true,
+    },
+);
+watch(
+    () => props.paperColor,
+    (value) => {
+        paperColor.set(value ?? "#fcfcfc");
+    },
+    {
+        immediate: true,
+    },
 );
 
 const material = computed(() => {
@@ -139,6 +160,12 @@ const material = computed(() => {
         shader.uniforms.uBackMetalnessMap = { value: backMetalnessMap.value };
         shader.uniforms.uBackFillMask = { value: backFillMask.value };
 
+        shader.uniforms.uFoilColor = {
+            value: foilColor,
+        };
+
+        shader.uniforms.uPaperColor = { value: paperColor };
+
         shader.vertexShader = shader.vertexShader.replace(
             "#include <common>",
             `
@@ -163,6 +190,9 @@ const material = computed(() => {
 
         uniform sampler2D uBackMetalnessMap;
         uniform sampler2D uBackFillMask;
+        uniform vec3 uFoilColor;
+        uniform vec3 uPaperColor;
+
         varying vec2 vBackUv;
         `,
             )
@@ -174,8 +204,8 @@ const material = computed(() => {
             float maskValueFactor = texture(uBackMetalnessMap, vBackUv).r;
             float fillMaskValueFactor = texture(uBackFillMask, vBackUv).r;
 
-            vec3 foilColor = vec3(0.71, 0.494, 0.196);
-            vec3 fillColor = mix(vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0), fillMaskValueFactor);
+            vec3 foilColor = uFoilColor;
+            vec3 fillColor = mix(uPaperColor, vec3(1.0, 1.0, 1.0), fillMaskValueFactor);
 
             diffuseColor.rgb = mix(fillColor, foilColor, maskValueFactor);
             `,
