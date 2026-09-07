@@ -261,7 +261,7 @@ watch(
         state.scene.traverse((child) => {
             if (child instanceof Mesh) {
                 child.castShadow = true;
-                child.receiveShadow = true;
+                // child.receiveShadow = true;
 
                 const name = child.name.toLowerCase();
 

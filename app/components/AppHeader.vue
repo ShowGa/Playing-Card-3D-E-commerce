@@ -96,8 +96,8 @@ header:has(a:hover) a:not(:hover) {
 
 @media (min-width: 1280px) {
     .header__nav {
-        padding-left: 5rem;
-        padding-right: 5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
         padding-top: 1rem;
     }
 

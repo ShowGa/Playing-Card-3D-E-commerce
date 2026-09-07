@@ -27,9 +27,9 @@ const options = computed(() => {
     if (width.value >= 1280) {
         return {
             x: 0.33,
-            cardPos: [1.7, 2.5, -2],
-            casePos: [-1.7, -2.5, 0],
-            scale: 0.7,
+            cardPos: [2.8, 2.5, 0],
+            casePos: [-2.4, -2.5, 0],
+            scale: 0.65,
         };
     }
 
@@ -167,7 +167,7 @@ useGSAP((isReducedMotion) => {
                         <TCards
                             model="aurelia"
                             :foilDeck="activeCustomColor"
-                            :rotation="[Math.PI / 2, 0, 0]"
+                            :rotation="[Math.PI / 2, -Math.PI / 6, 0]"
                         />
                     </TresGroup>
                 </TresGroup>
