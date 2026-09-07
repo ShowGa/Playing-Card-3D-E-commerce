@@ -18,13 +18,31 @@ const { state } = useGLTF(props.model);
 const foilColor = new Color("#e7c072");
 const paperColor = new Color("#fcfcfc");
 
-watch(state, (state) => {
-    state?.scene.traverse((child) => {
-        if (child instanceof Mesh) {
-            child.castShadow = true;
-        }
-    });
-});
+const INK_COLOR_BLACK = "#0d0d0d";
+const INK_COLOR_RED = "#dd0005";
+
+const SUIT_INK_GROUP: Record<string, "black" | "red"> = {
+    clubs: "black",
+    spades: "black",
+    heart: "red",
+    diamond: "red",
+};
+
+function getInkColorGroup(meshName: string): "black" | "red" {
+    const normalized = meshName.toLowerCase();
+    const suitKey = normalized.split("_").pop() ?? "";
+
+    const group = SUIT_INK_GROUP[suitKey];
+
+    if (!group) {
+        console.warn(
+            `[TCards] Unable to identify the suit for mesh "${meshName}", defaulting to black.`,
+        );
+        return "black";
+    }
+
+    return group;
+}
 
 // load maps
 const { state: backMetalnessMap, isLoading: isBackMetalnessMapLoading } =
@@ -64,6 +82,65 @@ watch(
     },
 );
 
+function createFrontMaterial(
+    frontMaskTexture: NonNullable<typeof frontMask.value>,
+    inkColorHex: string,
+) {
+    const mat = new MeshStandardMaterial({
+        map: frontMaskTexture,
+        roughness: 0.62,
+        metalness: 0,
+    });
+
+    mat.onBeforeCompile = (shader) => {
+        shader.uniforms.uFrontMask = { value: frontMaskTexture };
+        shader.uniforms.uInkColor = { value: new Color(inkColorHex) };
+
+        shader.vertexShader = shader.vertexShader.replace(
+            "#include <common>",
+            `
+            #include <common>
+            varying vec2 vFrontMaskUv;
+            `,
+        );
+
+        shader.vertexShader = shader.vertexShader.replace(
+            "#include <uv_vertex>",
+            `
+            #include <uv_vertex>
+            vFrontMaskUv = uv;
+            `,
+        );
+
+        shader.fragmentShader = shader.fragmentShader
+            .replace(
+                "#include <common>",
+                `
+        #include <common>
+
+        uniform sampler2D uFrontMask;
+        uniform vec3 uInkColor;
+
+        varying vec2 vFrontMaskUv;
+        `,
+            )
+            .replace(
+                "#include <color_fragment>",
+                `
+            #include <color_fragment>
+
+            float maskValueFactor = texture(uFrontMask, vFrontMaskUv).r;
+            vec3 cardColor = vec3(1.0, 1.0, 1.0);
+            vec3 inkColor = uInkColor;
+
+            diffuseColor.rgb = mix(cardColor, inkColor, maskValueFactor);
+            `,
+            );
+    };
+
+    return mat;
+}
+
 const material = computed(() => {
     if (
         !backMetalnessMap.value ||
@@ -94,11 +171,9 @@ const material = computed(() => {
         }
     });
 
-    const frontMat = new MeshStandardMaterial({
-        map: frontMask.value,
-        roughness: 0.62,
-        metalness: 0,
-    });
+    // 黑色花色 (clubs, spades) 與紅色花色 (heart, diamond) 各自一顆材質
+    const frontMatBlack = createFrontMaterial(frontMask.value, INK_COLOR_BLACK);
+    const frontMatRed = createFrontMaterial(frontMask.value, INK_COLOR_RED);
 
     const backMat = new MeshStandardMaterial({
         roughness: 1,
@@ -111,50 +186,6 @@ const material = computed(() => {
     const sideMat = new MeshStandardMaterial({
         color: "#f2f2f2",
     });
-
-    // onBeforeCompile
-    frontMat.onBeforeCompile = (shader) => {
-        shader.uniforms.uFrontMask = { value: frontMask.value };
-
-        shader.vertexShader = shader.vertexShader.replace(
-            "#include <common>",
-            `
-            #include <common>
-            varying vec2 vFrontMaskUv;
-            `,
-        );
-
-        shader.vertexShader = shader.vertexShader.replace(
-            "#include <uv_vertex>",
-            `
-            #include <uv_vertex>
-            vFrontMaskUv = uv;
-            `,
-        );
-
-        shader.fragmentShader = shader.fragmentShader
-            .replace(
-                "#include <common>",
-                `
-        #include <common>
-
-        uniform sampler2D uFrontMask;
-        varying vec2 vFrontMaskUv;
-        `,
-            )
-            .replace(
-                "#include <color_fragment>",
-                `
-            #include <color_fragment>
-
-            float maskValueFactor = texture(uFrontMask, vFrontMaskUv).r;
-            vec3 cardColor = vec3(1.0, 1.0, 1.0);
-            vec3 inkColor = vec3(0.0, 0.0, 0.0);
-
-            diffuseColor.rgb = mix(cardColor, inkColor, maskValueFactor);
-            `,
-            );
-    };
 
     backMat.onBeforeCompile = (shader) => {
         shader.uniforms.uBackMetalnessMap = { value: backMetalnessMap.value };
@@ -214,7 +245,12 @@ const material = computed(() => {
         return;
     };
 
-    return { front: frontMat, back: backMat, side: sideMat };
+    return {
+        frontBlack: frontMatBlack,
+        frontRed: frontMatRed,
+        back: backMat,
+        side: sideMat,
+    };
 });
 
 watch(
@@ -230,7 +266,11 @@ watch(
                 const name = child.name.toLowerCase();
 
                 if (name.includes("front")) {
-                    child.material = material.front;
+                    const inkGroup = getInkColorGroup(name);
+                    child.material =
+                        inkGroup === "red"
+                            ? material.frontRed
+                            : material.frontBlack;
                 } else if (name.includes("back")) {
                     child.material = material.back;
                 } else {
