@@ -65,6 +65,8 @@ const { items, totalPrice, removeItem } = useCart();
                     >
 
                     <button
+                        type="button"
+                        title="Remove from cart"
                         class="cta"
                         :style="{ width: '3.125rem', marginRight: '-1rem' }"
                         @click="removeItem(item.product.id)"
