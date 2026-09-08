@@ -36,6 +36,8 @@ const product = computed(() => {
     return { ...prismicProduct, stripeProduct };
 });
 
+console.log(product.value?.uid);
+
 const quantity = ref(1);
 
 // function
@@ -74,7 +76,7 @@ function onSubmit(event: Event) {
         as="article"
         class="rich-text bounded product-section__wrapper"
     >
-        <header class="rich-text product-section__header">
+        <header :id="product.uid" class="rich-text product-section__header">
             <PrismicRichText :field="product?.data?.name" />
             <p aria-label="Price">
                 {{ formatPrice(product.stripeProduct.price.amount) }} / Deck

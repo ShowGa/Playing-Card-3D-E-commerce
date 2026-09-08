@@ -27,8 +27,8 @@ const options = computed(() => {
     if (width.value >= 1280) {
         return {
             x: 0.33,
-            cardPos: [2.8, 2.5, 0],
-            casePos: [-2.4, -2.5, 0],
+            cardPos: [2.8, 1.5, 0],
+            casePos: [-2.4, -3.5, 0],
             scale: 0.65,
         };
     }
@@ -90,7 +90,7 @@ useGSAP((isReducedMotion) => {
                                 : "top bottom",
                         end:
                             position === "center"
-                                ? "top+=80% bottom"
+                                ? "top+=90% bottom"
                                 : "top+=50% bottom",
                         scrub: true,
                         invalidateOnRefresh: true,
