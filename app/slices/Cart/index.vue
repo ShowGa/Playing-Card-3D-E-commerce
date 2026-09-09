@@ -39,40 +39,43 @@ const { items, totalPrice, removeItem } = useCart();
         <template v-if="Object.keys(items).length">
             <PrismicRichText :field="slice.primary.text" />
 
-            <ul :style="{ marginTop: '4rem', maxWidth: '40ch' }">
+            <ul class="cart-list">
                 <li
                     v-for="item in items"
-                    :style="{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginTop: 0,
-                    }"
+                    :key="item.product.id"
+                    class="cart-item"
                 >
-                    <span :style="{ flexGrow: 1 }">{{ item.name }}</span>
+                    <span class="cart-item__name">
+                        {{ item.name }}
+                    </span>
+
                     <span
                         :aria-label="`Quantity of ${item.name}`"
-                        class="flex-1--text_align_rignt"
-                        >{{ item.quantity }}</span
+                        class="cart-item__quantity"
                     >
+                        {{ item.quantity }}
+                    </span>
+
                     <span
-                        :style="{ flexGrow: 1, textAlign: 'right' }"
                         :aria-label="`Price of ${item.name} ${item.quantity}`"
-                        >{{
+                        class="cart-item__price"
+                    >
+                        {{
                             formatPrice(
                                 item.quantity * item.product.price.amount,
                             )
-                        }}</span
-                    >
+                        }}
+                    </span>
 
                     <button
                         type="button"
                         title="Remove from cart"
-                        class="cta"
-                        :style="{ width: '3.125rem', marginRight: '-1rem' }"
+                        class="cta cart-item__remove"
                         @click="removeItem(item.product.id)"
                     >
                         &times;
                     </button>
+
                     <input
                         type="hidden"
                         :name="item.product.price.id"
@@ -81,18 +84,17 @@ const { items, totalPrice, removeItem } = useCart();
                 </li>
             </ul>
 
-            <hr :style="{ maxWidth: '40ch' }" />
+            <hr class="cart-divider" />
 
-            <p
-                aria-label="Total Price"
-                :style="{ paddingRight: '2.125rem', textAlign: 'right' }"
-            >
+            <p aria-label="Total Price" class="cart-total">
                 {{ formatPrice(totalPrice) }}
             </p>
+
             <button class="cart-form__button cta cta--primary" type="submit">
                 Checkout
             </button>
         </template>
+
         <PrismicRichText v-else :field="slice.primary.empty_text" />
     </SlideIn>
 </template>
@@ -105,15 +107,45 @@ const { items, totalPrice, removeItem } = useCart();
     justify-content: center;
 }
 
+.cart-list {
+    margin-top: 4rem;
+    max-width: 40ch;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: minmax(0, 2.3fr) 0.7fr 1.5fr 3.125rem;
+    align-items: center;
+    margin-top: 0;
+}
+
+.cart-item__name {
+    min-width: 0;
+}
+
+.cart-item__quantity,
+.cart-item__price {
+    text-align: right;
+}
+
+.cart-item__remove {
+    width: 3.125rem;
+    margin-right: -1rem;
+}
+
+.cart-divider {
+    max-width: 40ch;
+}
+
+.cart-total {
+    padding-right: 3.125rem;
+    text-align: right;
+}
+
 .cart-form__button {
     font-size: 1rem;
     margin-top: 4rem;
     max-width: 40ch;
     width: 100%;
-}
-
-.flex-1--text_align_rignt {
-    flex-grow: 1;
-    text-align: right;
 }
 </style>
