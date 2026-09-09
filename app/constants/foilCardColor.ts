@@ -7,11 +7,11 @@ export const foilDeckColor = {
         foilColor: "#e7c072",
         paperColor: "#fcfcfc",
     },
-    "ice-black": {
+    "sapphire-black": {
         foilColor: "#0091ff",
         paperColor: "#0d0d0d",
     },
-    "fire-black": {
+    "ruby-black": {
         foilColor: "#d60000",
         paperColor: "#0d0d0d",
     },

@@ -19,12 +19,12 @@ const { totalItem } = useCart();
             </div>
 
             <ul class="header__menu">
-                <li
+                <!-- <li
                     class="header__menu-item"
                     v-for="link in settings?.data.navigation"
                 >
                     <PrismicLink class="cta" :field="link" />
-                </li>
+                </li> -->
 
                 <li class="header__menu-cart">
                     <NuxtLink to="/#cart" class="cta">
