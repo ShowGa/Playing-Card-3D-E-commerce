@@ -1,75 +1,113 @@
-# Nuxt Minimal Starter
+# ShowGa 3D 撲克牌電商 [中文版]
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+[EN version ReadMe](#showga-3d-playing-card-ecommerce-EN)
 
-## Setup
+Nuxt, Vue練習專案
+Blender建模撲克牌組，Threejs技術呈現的3D撲克牌視覺互動購物網站。
+透過figma製作的撲克牌花色Mask，客製化撰寫fragment shader，
+呈現顏色，以此減少使用所需要的base color texture數量。
 
-Make sure to install dependencies:
+🎮 網站：[showga-playing-card.vercel.app](showga-playing-card.vercel.app)
 
-```bash
-# npm
-npm install
+## 使用技術 (Tech Stack)
 
-# pnpm
-pnpm install
+- 前端:
+    - [Nuxt](https://nuxt.com/)
+    - [Vue](https://vuejs.org/)
+    - [Three.js](https://threejs.org/)
+    - [TresJS](https://tresjs.org/)
+    - [Tres/Cientos](https://cientos.tresjs.org/)
+    - [Prismic](https://prismic.io/)
+    - [GSAP](https://gsap.com/)
+    - [Stripe](https://stripe.com/)
 
-# yarn
-yarn install
+## 功能特色
 
-# bun
-bun install
-```
+- 燙金效果
+    - 使用PBR材質MeshStandardMaterial，並使用onBeforeCompile
+      method修改fragment shader，一種mask texture就能夠產生多種
+      顏色燙金，不需要base color texture
 
-## Development Server
+- 3D物件互動
+    - Scroll旋轉
+    - 購物車新增物品時旋轉互動動畫
 
-Start the development server on `http://localhost:3000`:
+- 變換牌組
+    - HTML設定data attribute，滑動到牌組HTML section，3D物件
+      變換成相對應的顏色
 
-```bash
-# npm
-npm run dev
+### 專案截圖
 
-# pnpm
-pnpm dev
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_1.webp)
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_2.webp)
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_3.webp)
 
-# yarn
-yarn dev
+## 部署資訊
 
-# bun
-bun run dev
-```
+- 前端(Nuxt) : [Vercel](https://vercel.com/)
 
-## Production
+## 致謝
 
-Build the application for production:
+特別感謝Lucie from Prismic的Nuxt教學:
 
-```bash
-# npm
-npm run build
+- Build a 3D Nuxt 4 e-commerce Website
+    - https://www.youtube.com/watch?v=1ryWEqumhYI
 
-# pnpm
-pnpm build
+---
 
-# yarn
-yarn build
+# ShowGa 3D Playing Card E-commerce
 
-# bun
-bun run build
-```
+[中文版](#showga-3d-撲克牌電商)
 
-Locally preview production build:
+A practice project built with Nuxt and Vue.
 
-```bash
-# npm
-npm run preview
+ShowGa is a 3D playing card e-commerce website featuring interactive 3D visuals powered by Three.js. The playing card models were created in Blender, while custom fragment shaders are used to achieve dynamic foil colors with fewer base color textures.
 
-# pnpm
-pnpm preview
+🎮 Website: [showga-playing-card.vercel.app](showga-playing-card.vercel.app)
 
-# yarn
-yarn preview
+## Tech Stack
 
-# bun
-bun run preview
-```
+- Frontend:
+    - [Nuxt](https://nuxt.com/)
+    - [Vue](https://vuejs.org/)
+    - [Three.js](https://threejs.org/)
+    - [TresJS](https://tresjs.org/)
+    - [Tres/Cientos](https://cientos.tresjs.org/)
+    - [Prismic](https://prismic.io/)
+    - [GSAP](https://gsap.com/)
+    - [Stripe](https://stripe.com/)
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Features
+
+### Foil Effect
+
+- Uses `MeshStandardMaterial` with PBR materials.
+- Customizes the fragment shader through the `onBeforeCompile` method.
+- A single mask texture can be used to generate multiple foil colors, reducing the need for multiple base color textures.
+
+### 3D Object Interaction
+
+- Rotate the 3D playing cards while scrolling.
+- Animated card rotation when adding an item to the shopping cart.
+
+### Card Deck Transformation
+
+- Uses HTML `data-*` attributes to define the corresponding deck colors.
+- As the user scrolls to different deck sections, the 3D playing card model dynamically changes to match the selected color.
+
+## Screenshots
+
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_1.webp)
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_2.webp)
+![image](https://raw.githubusercontent.com/ShowGa/Pic-repository/refs/heads/main/PlayingCard-Project_feature1_3.webp)
+
+## Deployment
+
+- Frontend (Nuxt): [Vercel](https://vercel.com/)
+
+## Credits
+
+Special thanks to Lucie from Prismic for the Nuxt tutorial:
+
+- **Build a 3D Nuxt 4 e-commerce Website**
+    - https://www.youtube.com/watch?v=1ryWEqumhYI
