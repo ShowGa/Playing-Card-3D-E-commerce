@@ -11,15 +11,21 @@ const activeCustomColor = ref("golden-black" as keyof typeof foilDeckColor);
 const cardRef = ref<Group | null>();
 const cardInternalRef = ref<Group | null>();
 const caseRef = ref<Group | null>();
+const caseInternalRef = ref<Group | null>();
 
 // vueuse
 const { width } = useWindowSize();
 
 // 3D model default animations
 useLoop().onBeforeRender(({ elapsed }) => {
+    const rotationRadian =
+        Math.PI / 4 - (Math.sin(elapsed * 0.25) * Math.PI) / 2;
+
     if (cardInternalRef.value) {
-        cardInternalRef.value.rotation.y =
-            Math.PI / 4 - (Math.sin(elapsed * 0.25) * Math.PI) / 2;
+        cardInternalRef.value.rotation.y = rotationRadian;
+    }
+    if (caseInternalRef.value) {
+        caseInternalRef.value.rotation.y = rotationRadian;
     }
 });
 
@@ -178,7 +184,7 @@ useGSAP((isReducedMotion) => {
         <TresGroup :position="options.casePos" :scale="options.scale">
             <Levioso>
                 <TresGroup ref="caseRef">
-                    <TresGroup>
+                    <TresGroup ref="caseInternalRef">
                         <TCase
                             model="aurelia"
                             :foilDeck="activeCustomColor"
