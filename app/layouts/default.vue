@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Suspense } from "vue";
+import LoadingOverlay from "~/components/LoadingOverlay.vue";
 import TCanvas from "~/components/TCanvas.vue";
 
 const route = useRoute();
@@ -21,6 +23,8 @@ onMounted(() => {
         useRouter().replace({ path: route.path });
     }
 });
+
+const isReady = ref(false);
 </script>
 
 <template>
@@ -36,6 +40,8 @@ onMounted(() => {
         <TCanvas class="experience__3D-canvas">
             <TScene />
         </TCanvas>
+
+        <LoadingOverlay v-if="!isReady" v-model:is-ready="isReady" />
     </div>
 </template>
 

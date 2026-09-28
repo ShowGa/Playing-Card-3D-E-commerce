@@ -122,7 +122,7 @@ function onSubmit(event: Event) {
                                 : 'hidden',
                         }"
                     >
-                        <NuxtLink to="#/cart" class="cta cta--muted">
+                        <NuxtLink to="/#cart" class="cta cta--muted">
                             {{ items[product.stripeProduct.id]?.quantity }} in
                             cart
                         </NuxtLink>
